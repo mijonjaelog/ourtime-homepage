@@ -302,6 +302,7 @@ section + section{border-top:1px solid var(--line)}
 .head::before{content:"";width:170px;height:9px;background:linear-gradient(var(--gold),var(--gold)) left center/66px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) right center/66px 1px no-repeat,radial-gradient(circle,var(--gold) 0 3px,transparent 3.5px) center/9px 9px no-repeat}
 .head h2{font-size:clamp(27px,3.4vw,40px);font-weight:400;line-height:1.3;letter-spacing:.03em}
 .head p{color:var(--mist)}
+.head .you-name{color:var(--gold);font-weight:600}
 
 
 /* ===== 티저 영상 =====
@@ -419,7 +420,9 @@ section + section{border-top:1px solid var(--line)}
 .person .mark-you{font-size:clamp(26px,3vw,34px);letter-spacing:.2em;padding-left:.2em}
 .person h3{font-size:19px;font-weight:500;letter-spacing:.08em}
 .person.q h3{font-family:var(--latin);color:var(--gold);font-size:22px}
-.person small{display:block;margin-top:2px;font-size:12.5px;letter-spacing:.12em;color:var(--gold)}
+.person small{display:block;margin-top:2px;font-size:12.5px;letter-spacing:.08em;color:var(--gold);word-break:keep-all}
+.people-note{margin:28px auto 0;max-width:40em;text-align:center;font-size:13px;line-height:1.7;color:var(--dim)}
+.people-note b{color:var(--mist);font-weight:600}
 .person.you .portrait{border-color:rgba(225,190,128,.6);background:radial-gradient(80% 70% at 50% 40%,var(--hull),var(--deep) 80%)}
 @media (max-width:960px){.people{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:560px){.people{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}.person h3{font-size:17px}}
@@ -742,9 +745,10 @@ footer b{font-family:var(--latin);font-weight:400;letter-spacing:.14em;color:var
   <div class="wrap">
     <div class="head">
       <h2>같은 배에 오른 열 사람</h2>
-      <p>아홉 명의 참가자와 당신.</p>
+      <p>아홉 명의 참가자와 당신. 승선 카드에 적힌 당신의 이름은 <b class="you-name">서유나</b>.<br>‘?’ 자리에는 당신의 이름이 배정된다.</p>
     </div>
     <div class="people" id="peopleGrid"></div>
+    <p class="people-note">※ 시작하기 전에 <b>유저노트의 비밀 사항</b>에 당신(페르소나)의 본명을 적어 주세요. ‘?’ 자리에 배정되는 이름이에요.</p>
   </div>
 </section>
 
@@ -792,7 +796,7 @@ const PEOPLE = [
   {name:"?", img:"c07", q:true},
   {name:"권해준", img:"c08"},
   {name:"류하경", img:"c09"},
-  {name:"당신", img:"", you:true}
+  {name:"서유나", img:"", you:true}   // 당신(플레이어)의 승선 카드 이름
 ];
 
 /* 장소 19곳. img 는 img/places/ 안의 파일 이름(확장자 제외). 아직 그림이 없는 곳은 img 를 비워둔다.
@@ -872,7 +876,8 @@ for (const p of PEOPLE) {
   else pic.insertAdjacentHTML("beforeend", SIL);
   const cap = el("figcaption");
   cap.append(el("h3", "", p.name));
-  if (p.you) cap.append(el("small", "", "6101호"));
+  if (p.you) cap.append(el("small", "", "당신 · 6101호"));
+  if (p.q) cap.append(el("small", "", "당신의 이름이 배정될 자리"));
   card.append(pic, cap);
   $("peopleGrid").append(card);
 }
