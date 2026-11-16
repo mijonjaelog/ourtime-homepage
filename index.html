@@ -304,6 +304,13 @@ section + section{border-top:1px solid var(--line)}
 .head p{color:var(--mist)}
 
 
+/* ===== 티저 영상 =====
+   세로 9:16 영상. 금색 이중 테두리 안에 넣고, 화면 높이를 넘지 않게 폭을 정한다. 누르기 전에는 포스터 장면을 표지로 보여 준다. */
+#teaser{background:linear-gradient(180deg,var(--deep),var(--navy))}
+.teaser{margin:0 auto;width:min(380px,100%,calc((100vh - 220px) * 9 / 16));display:grid;gap:14px;justify-items:center}
+.teaser video{display:block;width:100%;aspect-ratio:9/16;background:var(--navy);border:1px solid var(--gold);border-radius:6px;padding:6px;box-shadow:0 0 0 1px rgba(225,190,128,.25),0 40px 70px -30px rgba(0,0,0,.85),0 0 60px -20px rgba(225,190,128,.3)}
+.teaser figcaption{font-size:13px;letter-spacing:.08em;color:var(--dim)}
+
 /* ===== 선내 안내 ===== */
 #ship{background:linear-gradient(180deg,var(--deep),var(--navy) 30%,var(--deep))}
 .guide{display:grid;grid-template-columns:330px minmax(0,1fr);gap:36px;align-items:start}
@@ -557,6 +564,7 @@ footer b{font-family:var(--latin);font-weight:400;letter-spacing:.14em;color:var
     <a class="ship" href="#top">MV MERIDIAN</a>
     <nav aria-label="페이지 안 이동">
       <a href="#top">작품 소개</a>
+      <a href="#teaser">티저</a>
       <a href="#ship">선내 안내</a>
       <a href="#day01">첫 장면</a>
       <a href="#people">참가자</a>
@@ -629,6 +637,18 @@ footer b{font-family:var(--latin);font-weight:400;letter-spacing:.14em;color:var
 </header>
 
 <main>
+
+<section id="teaser">
+  <div class="wrap">
+    <div class="head"><h2>티저</h2><p>우리는 같은 시간을 기억하고 있을까.</p></div>
+    <figure class="teaser">
+      <video id="teaserVideo" controls playsinline preload="none" poster="media/teaser-cover.jpg" aria-label="우리 사이의 시간 티저 영상, 40초">
+        <source src="media/teaser.mp4" type="video/mp4">
+      </video>
+      <figcaption>소리를 켜고 보면 더 좋아요 · 40초</figcaption>
+    </figure>
+  </div>
+</section>
 
 <section id="ship">
   <div class="wrap">
@@ -1008,7 +1028,7 @@ function reveal(sel, step) {
     if (io) io.observe(n); else n.classList.add("in");
   });
 }
-reveal(".head"); reveal(".profile"); reveal(".stage"); reveal(".script");
+reveal(".head"); reveal(".teaser"); reveal(".profile"); reveal(".stage"); reveal(".script");
 reveal(".person", .06); reveal(".cmdgroup", .1); reveal(".end h2"); reveal(".end p", .15);
 
 // 첫 화면은 문을 지나 들어올 때 차례로 나타난다
@@ -1070,6 +1090,7 @@ addEventListener("scroll", () => {
   function exitCabin() {
     cancel();
     done = true;
+    const tv = document.getElementById("teaserVideo"); if (tv) tv.pause();   // 객실을 나가면 티저 영상은 멈춘다
     card.style.transition = "none"; card.style.transform = "";
     gate.className = "gate leave swing open ok fly";
     hint.textContent = "6101호에서 나왔습니다";
